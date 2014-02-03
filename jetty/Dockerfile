@@ -1,19 +1,17 @@
-FROM ubuntu
+FROM dockerfile/java
 
 MAINTAINER Michael Dodsworth michael@dodsy.me
 
-# make sure the package repository is up to date
-RUN echo "deb http://archive.ubuntu.com/ubuntu precise main universe" > /etc/apt/sources.list
-RUN apt-get update
+# fetch and untar Jetty
+ADD http://eclipse.org/downloads/download.php?file=/jetty/8.1.14.v20131031/dist/jetty-distribution-8.1.14.v20131031.tar.gz&r=1 /opt
+RUN mv /opt/jetty-* /opt/jetty
 
-# install memcached
-RUN apt-get install -y memcached
+# create a jetty user
+RUN useradd jetty -U -s /bin/false
+RUN chown -R jetty:jetty /opt/jetty
 
-# launch memcached when launching the container
-ENTRYPOINT ["memcached"]
+USER jetty
+WORKDIR /opt/jetty
+EXPOSE 8080
 
-# run memcached as the daemon user
-USER daemon
-
-# export memcached port
-EXPOSE 11211
+CMD ["java", "-Djetty.home=/opt/jetty", "-jar", "start.jar"]
