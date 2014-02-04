@@ -1,3 +1,4 @@
+# basic jetty docker build file
 FROM dockerfile/java
 
 MAINTAINER Michael Dodsworth michael@dodsy.me
