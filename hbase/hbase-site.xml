@@ -7,4 +7,4 @@
     <name>hbase.zookeeper.property.dataDir</name>
     <value>/data/zookeeper</value>
   </property>
-</configuration>  
+</configuration>
