@@ -1,0 +1,16 @@
+#
+#-*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vm.box = "precise64"
+  config.vm.network "private_network", type: "dhcp"
+  config.vm.provision "docker" do |d|
+    d.run "mdodsworth/hbase",
+      args: "-p 2181:2181 -p 60000:60000 -p 60010:60010 -p 60020:60020 -p 60030:60030 -v '/vagrant/data:/data'"
+  end
+end
+
