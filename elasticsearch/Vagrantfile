@@ -6,7 +6,8 @@ VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "precise64"
-  config.vm.network "private_network", type: "dhcp"
+  config.vm.network :forwarded_port, :host => 9200, :guest => 9200
+  config.vm.network :forwarded_port, :host => 9300, :guest => 9300
   config.vm.provision "docker" do |d|
     d.run "dockerfile/elasticsearch",
       args: "-p 9200:9200 -p 9300:9300 -v '/vagrant:/data'"
